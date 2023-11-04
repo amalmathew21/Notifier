@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>Order List</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+</head>
+<body>
+    <h1>Order List</h1>
+    <div id="newOrderMessage" style="display: none;">
+        New order placed - Total order count is {{ total_orders }}
+    </div>
+
+    <!-- Muted audio element -->
+    <audio id="beepAudio" src="{% static 'sound/button-2.mp3' %}" muted></audio>
+
+     <table id="orderTable" class="display">
+        <thead>
+            <tr>
+                <th>Order Number</th>
+                <th>Customer Name</th>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Total Price</th>
+                <th>Order Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order.order_number }}</td>
+                    <td>{{ order.customer_name }}</td>
+                    <td>{{ order.product_name }}</td>
+                    <td>{{ order.quantity }}</td>
+                    <td>{{ order.total_price }}</td>
+                    <td>{{ order.order_date }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6">No orders available.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div>
+        <a href="{% url 'add_order' %}" class="btn btn-primary">Add New Order</a>
+        <button class="btn btn-secondary" id="home">Home Page</button>
+        <button class="btn btn-danger" id="totalorder">Total Order</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var lastOrderId = {{ orders.last.id }};
+            var table = $('#orderTable').DataTable({
+                "order": [[5, "desc"]]
+            });
+
+
+            var audio = document.getElementById('beepAudio');
+
+            function checkForNewOrder() {
+                fetch('/check_for_new_order/')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.new_order_id > lastOrderId) {
+                            lastOrderId = data.new_order_id;
+                            audio.muted = false;
+                            audio.play();
+                            displayNewOrderMessage();
+                        }
+                    });
+            }
+
+            $('#home').on('click', function() {
+                window.location.href = "{% url 'index' %}";
+            });
+
+            $('#totalorder').on('click', function() {
+                window.location.href = "{% url 'check_for_new_order' %}";
+            });
+
+             function displayNewOrderMessage() {
+
+            alert('New order placed');
+        }
+            setInterval(checkForNewOrder, 5000);
+        });
+    </script>
+</body>
+</html>

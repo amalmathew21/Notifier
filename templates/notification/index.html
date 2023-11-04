@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static%}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   
+
+    <title>Simple Notifier</title>
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:500,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+
+    <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+    <style>
+      .attribution {
+        font-size: 11px;
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+      .attribution a {
+        color: hsl(228, 45%, 44%);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="root">
+      <div class="app-header">
+        <input type="checkbox" id="nav-visible" tabindex="-1" />
+
+        <div class="navbar">
+          
+
+          <label for="nav-visible" class="toggle-nav">
+            <svg  class="icon-menu" width="25" viewBox="0 0 512 512">
+              <g>
+                <path
+                  d="M492,236H20c-11.046,0-20,8.954-20,20c0,11.046,8.954,20,20,20h472c11.046,0,20-8.954,20-20S503.046,236,492,236z"
+                ></path>
+              </g>
+              <g>
+                <path
+                  d="M492,76H20C8.954,76,0,84.954,0,96s8.954,20,20,20h472c11.046,0,20-8.954,20-20S503.046,76,492,76z"
+                ></path>
+              </g>
+              <g>
+                <path
+                  d="M492,396H20c-11.046,0-20,8.954-20,20c0,11.046,8.954,20,20,20h472c11.046,0,20-8.954,20-20
+                  C512,404.954,503.046,396,492,396z"
+                ></path>
+              </g>
+            </svg>
+          </label>
+
+          <nav class="navbar-nav">
+           <a href="{% url 'add_order' %}" style="font-weight: bold; color: inherit; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#2acfcf'" onmouseout="this.style.color='inherit'">Add Order</a>
+            <a href="{% url 'order_list' %}" style="font-weight: bold; color: inherit; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#2acfcf'" onmouseout="this.style.color='inherit'">View Order</a>
+            <a href="{% url 'check_for_new_order' %}" style="font-weight: bold; color: inherit; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#2acfcf'" onmouseout="this.style.color='inherit'">Check Order</a>
+
+
+            <div class="separator-mobile"></div>
+
+            <button type="button" class="btn btn-small btn-secondary btn-login">Login</button>
+            <button type="button" class="btn btn-small btn-primary">Sign Up</button>
+          </nav>
+        </div>
+      </div>
+
+      <div class="intro">
+        <div class="content">
+          <h1 class="title"> Simple Notifier</h1>
+          <p class="desc">
+           Get notified when the new orders are added or the orders are placed
+          </p>
+          <a href="{% url 'add_order' %}">
+              <button class="btn btn-primary">Get Started</button>
+          </a>
+        </div>
+
+
+        <form class="shorten-url-form">
+          <input type="url" placeholder="Dont do anything &hellip;" />
+          <button type="submit" class="btn btn-primary">Nothing!</button>
+        </form>
+      </div>
+
+      <div class="stats">
+        <div class="content">
+          <h1 class="title">Advanced Bookings</h1>
+          <p class="desc">
+            Go to Your Orders and  <br />See the orders you have placed<br>
+              <a href="{% url 'order_list' %}">
+           <button type="submit" class="btn btn-primary">Go</button>
+          </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
